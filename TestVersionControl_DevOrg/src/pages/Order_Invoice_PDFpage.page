@@ -1,0 +1,88 @@
+<apex:page standardController="Order" showHeader="false"
+        extensions="OrderPdfPageController" standardStylesheets="false" renderAs="PDF" >
+
+
+<apex:stylesheet value="{!$Resource.StylePurchase}"/>
+
+
+ <table width="100%">
+        <tr width="100%">
+            <td width="50%" align="left">
+                <apex:image url="{!$Resource.ImagePurchase}" width="150" height="100"/>
+            </td>
+            <td width="50%" align="right">
+                 <apex:panelGrid columns="1" width="70%" styleClass="quoteinfo">
+                    <apex:outputText value="Purchase Order#:  {!Order.OrderNumber}" />
+                    Order Date:  <apex:outputField value="{!Order.EffectiveDate}" style="text-align:right"/>
+                    <apex:outputText value="{!Order.Account.Name}" />
+                    <apex:outputText value="" />
+                </apex:panelGrid>
+            </td>
+           </tr>
+           <tr>
+               <td width="50%" align="left">
+                   <apex:panelGrid columns="1" width="150%"  styleClass="infobox">
+                        <b>Prepared For:</b> <apex:outputText value="{!Order.ShipToContact.Name}" styleClass="contactName"/>
+                        <apex:outputText value="{!Order.Account.Name}"/>
+                       
+                        <apex:outputPanel ><apex:outputText value="{!Order.ShippingCity}"/>, <apex:outputText value="{!Order.ShippingState}"/>, <apex:outputText value=" {!Order.ShippingPostalCode}"/></apex:outputPanel>
+                        <apex:outputText value="Phone: {!Order.ShipToContact.phone}"/>
+                    </apex:panelGrid>
+                </td>
+            </tr>
+        </table>
+        <br/> <br/>
+        <div style="page-break-after:always;">
+         
+        <apex:repeat value="{!OrderProductListwithPageBreak}" var="aPageOfQuotes" id="theList">
+        
+        
+           <apex:dataTable value="{!aPageOfQuotes}" var="c" id="theTable" headerClass="tablehead" rowClasses="odd,even" style="font-size: 60%; " columnsWidth="50px, 100px, 150px, 100px, 100px, 50px, 100px">
+             <apex:column style="border: 1px"> 
+                  <apex:facet name="header">Order Item</apex:facet>
+                  <apex:outputText value="{!c.OrderItemNumber}"/>
+              </apex:column> 
+              
+              
+              <apex:column style="text-align:center;">
+                  <apex:facet name="header" >Product</apex:facet>
+                  <apex:outputField value="{!c.Product2.Name}"/>
+              </apex:column>
+              <apex:column >
+                  <apex:facet name="header">Description</apex:facet>
+                  <apex:outputText value="{!c.Description}"/>
+              </apex:column>   
+              <apex:column >
+                  <apex:facet name="header">Quantity Ordered</apex:facet>
+                  <apex:outputField value="{!c.Quantity}"/>
+              </apex:column>
+            <apex:column > 
+                  <apex:facet name="header">Unit Price</apex:facet>
+                  <apex:outputField value="{!c.UnitPrice}"/>
+              </apex:column>
+              
+               <apex:column style="text-align:center;">
+                  <apex:facet name="header" >List Price</apex:facet>
+                  <apex:outputField value="{!c.ListPrice}"/>
+              </apex:column>
+              <!-- <apex:column styleClass="highlightcol">
+                  <apex:facet name="header" >Sales Discount</apex:facet>
+                  <apex:outputField value="{!c.Sales_Discount__c}"/>
+              </apex:column> -->
+              <apex:column style="text-align:center;">
+                  <apex:facet name="header" >Total Price</apex:facet>
+                  <apex:outputField value="{!c.TotalPrice}"/>
+              </apex:column>
+              
+  </apex:dataTable>
+  
+
+  </apex:repeat>
+
+  <br/>
+       <apex:panelGrid columns="2" width="100%" styleClass="infobox">
+        <apex:outputText styleClass="infohead" value="Quotation Totals:" />
+        <apex:outputField value="{!Order.TotalAmount}"/>
+       </apex:panelGrid>      
+  </div>
+</apex:page>
