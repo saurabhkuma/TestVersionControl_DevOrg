@@ -15,7 +15,11 @@ global class HttpIntegrationPoc {
     String response ;
      String request = RestContext.request.requestBody.toString();
      System.debug( request );
+<<<<<<< HEAD
     //added a comment today ......  ......
+=======
+    //direct change on git hub is reflecting or not
+>>>>>>> e1480d05e25cbe919d6ce6ab5f8dd55660578338
     try{
    system.debug((OrderWrapper) System.JSON.deserialize(request, OrderWrapper.class));
    OrderWrapper owrapper = (OrderWrapper) System.JSON.deserialize(request, OrderWrapper.class);
